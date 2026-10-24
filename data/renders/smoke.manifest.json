@@ -1,0 +1,14 @@
+{
+  "output": "smoke.mp4",
+  "expected_duration_s": 9.0,
+  "captions": [
+    {
+      "id": "cap_3b23a7ac1cbc",
+      "output_interval_s": [
+        0.15,
+        0.35
+      ]
+    }
+  ],
+  "captions_burned_in": true
+}

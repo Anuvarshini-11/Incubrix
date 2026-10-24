@@ -1,0 +1,852 @@
+openapi: 3.1.0
+info:
+  title: IncuBrix Video Editing Engine
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      summary: Health
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /ready:
+    get:
+      summary: Ready
+      operationId: ready_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/v1/videos:
+    post:
+      summary: Upload Video
+      operationId: upload_video_api_v1_videos_post
+      parameters:
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_video_api_v1_videos_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/remove-silence:
+    post:
+      summary: Remove Silence Session
+      operationId: remove_silence_session_api_v1_sessions__session_id__remove_silence_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/music:
+    post:
+      summary: Upload Background Music
+      operationId: upload_background_music_api_v1_sessions__session_id__music_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_background_music_api_v1_sessions__session_id__music_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/videos/{video_id}:
+    get:
+      summary: Get Video
+      operationId: get_video_api_v1_videos__video_id__get
+      parameters:
+      - name: video_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Video Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/media/{video_id}:
+    get:
+      summary: Get Media
+      operationId: get_media_api_v1_media__video_id__get
+      parameters:
+      - name: video_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Video Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/videos/{video_id}/transcript:
+    get:
+      summary: Transcript
+      operationId: transcript_api_v1_videos__video_id__transcript_get
+      parameters:
+      - name: video_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Video Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/transcript:
+    put:
+      summary: Update Transcript
+      operationId: update_transcript_api_v1_sessions__session_id__transcript_put
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranscriptUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/transcribe:
+    post:
+      summary: Transcribe Session
+      operationId: transcribe_session_api_v1_sessions__session_id__transcribe_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions:
+    post:
+      summary: Create Session
+      operationId: create_session_api_v1_sessions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSession'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/timelines/{timeline_id}:
+    get:
+      summary: Get Timeline
+      operationId: get_timeline_api_v1_timelines__timeline_id__get
+      parameters:
+      - name: timeline_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Timeline Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/instructions:
+    post:
+      summary: Instruction
+      operationId: instruction_api_v1_sessions__session_id__instructions_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      - name: Idempotency-Key
+        in: header
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Idempotency-Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Instruction'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/clarifications:
+    post:
+      summary: Clarification
+      operationId: clarification_api_v1_sessions__session_id__clarifications_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Clarification'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/history:
+    get:
+      summary: History
+      operationId: history_api_v1_sessions__session_id__history_get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/timeline:
+    put:
+      summary: Update Timeline
+      operationId: update_timeline_api_v1_sessions__session_id__timeline_put
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timeline'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/undo:
+    post:
+      summary: Undo
+      operationId: undo_api_v1_sessions__session_id__undo_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/redo:
+    post:
+      summary: Redo
+      operationId: redo_api_v1_sessions__session_id__redo_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/sessions/{session_id}/render:
+    post:
+      summary: Render Session
+      operationId: render_session_api_v1_sessions__session_id__render_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/render-jobs/{job_id}:
+    get:
+      summary: Render Job Status
+      operationId: render_job_status_api_v1_render_jobs__job_id__get
+      parameters:
+      - name: job_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Job Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/renders/{session_id}:
+    get:
+      summary: Download Render
+      operationId: download_render_api_v1_renders__session_id__get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Anchor:
+      properties:
+        word_ids:
+          items:
+            type: string
+          type: array
+          title: Word Ids
+        source_start_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Source Start S
+        source_end_s:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Source End S
+      type: object
+      title: Anchor
+    Bleep:
+      properties:
+        id:
+          type: string
+          title: Id
+        source_start_s:
+          type: number
+          minimum: 0.0
+          title: Source Start S
+        source_end_s:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Source End S
+      type: object
+      required:
+      - id
+      - source_start_s
+      - source_end_s
+      title: Bleep
+    Body_upload_background_music_api_v1_sessions__session_id__music_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_background_music_api_v1_sessions__session_id__music_post
+    Body_upload_video_api_v1_videos_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_video_api_v1_videos_post
+    Caption:
+      properties:
+        id:
+          type: string
+          title: Id
+        text:
+          type: string
+          title: Text
+        anchor:
+          $ref: '#/components/schemas/Anchor'
+        style:
+          $ref: '#/components/schemas/CaptionStyle'
+      type: object
+      required:
+      - id
+      - text
+      - anchor
+      title: Caption
+    CaptionStyle:
+      properties:
+        color:
+          type: string
+          title: Color
+          default: white
+        size:
+          type: integer
+          maximum: 160.0
+          minimum: 8.0
+          title: Size
+          default: 36
+        position:
+          type: string
+          enum:
+          - top
+          - center
+          - bottom
+          title: Position
+          default: bottom
+      type: object
+      title: CaptionStyle
+    Clarification:
+      properties:
+        answer:
+          type: string
+          title: Answer
+        clarification_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Clarification Id
+        instruction:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Instruction
+      type: object
+      required:
+      - answer
+      title: Clarification
+    CreateSession:
+      properties:
+        video_id:
+          type: string
+          title: Video Id
+      type: object
+      required:
+      - video_id
+      title: CreateSession
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Instruction:
+      properties:
+        instruction:
+          type: string
+          title: Instruction
+      type: object
+      required:
+      - instruction
+      title: Instruction
+    Segment:
+      properties:
+        id:
+          type: string
+          title: Id
+        source_start_s:
+          type: number
+          minimum: 0.0
+          title: Source Start S
+        source_end_s:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Source End S
+        speed:
+          type: number
+          maximum: 4.0
+          minimum: 0.25
+          title: Speed
+          default: 1
+      type: object
+      required:
+      - id
+      - source_start_s
+      - source_end_s
+      title: Segment
+    Source:
+      properties:
+        media_id:
+          type: string
+          title: Media Id
+        sha256:
+          type: string
+          title: Sha256
+        duration_s:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Duration S
+        width:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Width
+        height:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Height
+        frame_rate:
+          type: string
+          title: Frame Rate
+          default: 25/1
+        has_audio:
+          type: boolean
+          title: Has Audio
+          default: true
+      type: object
+      required:
+      - media_id
+      - sha256
+      - duration_s
+      title: Source
+    Timeline:
+      properties:
+        timeline_id:
+          type: string
+          title: Timeline Id
+        schema_version:
+          type: string
+          title: Schema Version
+          default: 1.0.0
+        source:
+          $ref: '#/components/schemas/Source'
+        transcript:
+          items:
+            $ref: '#/components/schemas/Word'
+          type: array
+          title: Transcript
+        segments:
+          items:
+            $ref: '#/components/schemas/Segment'
+          type: array
+          title: Segments
+        captions:
+          items:
+            $ref: '#/components/schemas/Caption'
+          type: array
+          title: Captions
+        bleeps:
+          items:
+            $ref: '#/components/schemas/Bleep'
+          type: array
+          title: Bleeps
+        mute_audio:
+          type: boolean
+          title: Mute Audio
+          default: false
+        audio_gain:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Audio Gain
+          default: 1.0
+        background_music_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Background Music Id
+        music_gain:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Music Gain
+          default: 0.25
+        duck_music:
+          type: boolean
+          title: Duck Music
+          default: true
+        revision:
+          type: integer
+          title: Revision
+          default: 0
+        warnings:
+          items:
+            type: string
+          type: array
+          title: Warnings
+      additionalProperties: false
+      type: object
+      required:
+      - timeline_id
+      - source
+      - segments
+      title: Timeline
+    TranscriptUpdate:
+      properties:
+        words:
+          items:
+            $ref: '#/components/schemas/Word'
+          type: array
+          title: Words
+      type: object
+      required:
+      - words
+      title: TranscriptUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Word:
+      properties:
+        id:
+          type: string
+          title: Id
+        start_s:
+          type: number
+          minimum: 0.0
+          title: Start S
+        end_s:
+          type: number
+          exclusiveMinimum: 0.0
+          title: End S
+        text:
+          type: string
+          title: Text
+        speaker_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Speaker Id
+        confidence:
+          type: number
+          maximum: 1.0
+          minimum: 0.0
+          title: Confidence
+          default: 1.0
+      type: object
+      required:
+      - id
+      - start_s
+      - end_s
+      - text
+      title: Word

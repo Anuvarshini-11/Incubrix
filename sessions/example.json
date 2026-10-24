@@ -1,0 +1,1 @@
+{"video":"./fixtures/interview.mp4","steps":[{"say":"Add a caption 'Welcome!' when I say 'welcome to the channel'"},{"say":"Cut the first 30 seconds"},{"say":"Speed up from 1:00 to 1:30 by 2x"},{"say":"Undo"},{"render":true}]}

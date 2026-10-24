@@ -1,0 +1,50 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "IncuBrix Timeline",
+	"type": "object",
+	"required": ["timeline_id", "schema_version", "source", "transcript", "segments", "captions", "bleeps", "revision", "warnings"],
+	"properties": {
+		"timeline_id": { "type": "string" },
+		"schema_version": { "type": "string" },
+		"source": {
+			"type": "object",
+			"required": ["media_id", "sha256", "duration_s", "frame_rate", "width", "height", "has_audio"],
+			"properties": {
+				"media_id": { "type": "string" }, "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+				"duration_s": { "type": "number", "exclusiveMinimum": 0 }, "frame_rate": { "type": "string" },
+				"width": { "type": ["integer", "null"] }, "height": { "type": ["integer", "null"] }, "has_audio": { "type": "boolean" }
+			}, "additionalProperties": false
+		},
+		"transcript": { "type": "array", "items": {
+			"type": "object", "required": ["id", "start_s", "end_s", "text", "speaker_id", "confidence"],
+			"properties": { "id": { "type": "string" }, "start_s": { "type": "number", "minimum": 0 }, "end_s": { "type": "number", "exclusiveMinimum": 0 }, "text": { "type": "string" }, "speaker_id": { "type": ["string", "null"] }, "confidence": { "type": "number", "minimum": 0, "maximum": 1 } },
+			"additionalProperties": false
+		}},
+		"segments": { "type": "array", "minItems": 1, "items": {
+			"type": "object", "required": ["id", "source_start_s", "source_end_s", "speed"],
+			"properties": { "id": { "type": "string" }, "source_start_s": { "type": "number", "minimum": 0 }, "source_end_s": { "type": "number", "exclusiveMinimum": 0 }, "speed": { "type": "number", "minimum": 0.25, "maximum": 4 } },
+			"additionalProperties": false
+		}},
+		"captions": { "type": "array", "items": {
+			"type": "object", "required": ["id", "text", "anchor", "style"],
+			"properties": {
+				"id": { "type": "string" }, "text": { "type": "string" },
+				"anchor": { "type": "object", "required": ["word_ids", "source_start_s", "source_end_s"], "properties": { "word_ids": { "type": "array", "items": { "type": "string" } }, "source_start_s": { "type": ["number", "null"] }, "source_end_s": { "type": ["number", "null"] } }, "additionalProperties": false },
+				"style": { "type": "object", "required": ["color", "size", "position"], "properties": { "color": { "type": "string" }, "size": { "type": "integer", "minimum": 8, "maximum": 160 }, "position": { "enum": ["top", "center", "bottom"] } }, "additionalProperties": false }
+			}, "additionalProperties": false
+		}},
+		"bleeps": { "type": "array", "items": {
+			"type": "object", "required": ["id", "source_start_s", "source_end_s"],
+			"properties": { "id": { "type": "string" }, "source_start_s": { "type": "number", "minimum": 0 }, "source_end_s": { "type": "number", "exclusiveMinimum": 0 } },
+			"additionalProperties": false
+		}},
+		"mute_audio": { "type": "boolean" },
+		"audio_gain": { "type": "number", "minimum": 0, "maximum": 1, "default": 1 },
+		"background_music_id": { "type": ["string", "null"] },
+		"music_gain": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.25 },
+		"duck_music": { "type": "boolean", "default": true },
+		"revision": { "type": "integer", "minimum": 0 },
+		"warnings": { "type": "array", "items": { "type": "string" } }
+	},
+	"additionalProperties": false
+}
